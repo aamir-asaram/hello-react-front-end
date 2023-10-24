@@ -3,17 +3,12 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 export const fetchGreetings = createAsyncThunk(
   'greetings/fetchGreetings',
   async () => {
-    try {
-      const response = await fetch('http://127.0.0.1:3000/api/v1/greeting');
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const json = await response.json();
-      console.log(json);
-      return json;
-    } catch (error) {
-      throw error;
+    const response = await fetch('http://127.0.0.1:3000/api/v1/greeting');
+    if (!response.ok) {
+      return Promise.reject(new Error('Network response was not ok'));
     }
+    const json = await response.json();
+    return json;
   },
 );
 
@@ -27,18 +22,20 @@ const greetingsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchGreetings.pending, (state) => {
-        state.loading = true;
-      })
+      .addCase(fetchGreetings.pending, (state) => ({ ...state, loading: true }))
       .addCase(fetchGreetings.fulfilled, (state, action) => {
-        const data = action.payload.greeting.greetings;
-        state.greeting = data;
-        state.loading = false;
+        const { greeting } = action.payload;
+        return {
+          ...state,
+          greeting: greeting.greetings,
+          loading: false,
+        };
       })
-      .addCase(fetchGreetings.rejected, (state, action) => {
-        state.error = action.error.message;
-        state.loading = false;
-      });
+      .addCase(fetchGreetings.rejected, (state, action) => ({
+        ...state,
+        error: action.error.message,
+        loading: false,
+      }));
   },
 });
 
