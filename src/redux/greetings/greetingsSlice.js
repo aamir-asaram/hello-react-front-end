@@ -14,7 +14,7 @@ export const fetchGreetings = createAsyncThunk(
     } catch (error) {
       throw error;
     }
-  }
+  },
 );
 
 const greetingsSlice = createSlice({
@@ -32,7 +32,6 @@ const greetingsSlice = createSlice({
       })
       .addCase(fetchGreetings.fulfilled, (state, action) => {
         const data = action.payload.greeting.greetings;
-        console.log(data);
         state.greeting = data;
         state.loading = false;
       })
@@ -40,7 +39,7 @@ const greetingsSlice = createSlice({
         state.error = action.error.message;
         state.loading = false;
       });
-  }
+  },
 });
 
 export default greetingsSlice.reducer;

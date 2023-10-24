@@ -34,6 +34,9 @@
 
   **hello-react-front-end** serves as a UI that utilizes the hello-rails-back-end greeting API to display a random greeting.
 
+## Hello RAILS Back-End
+This is the [link](https://github.com/aamir-asaram/hello-rails-back-end) to the back-end of this project
+
 
 ## 🛠 Built With <a name="built-with"></a>
 

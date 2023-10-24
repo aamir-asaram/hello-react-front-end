@@ -4,23 +4,26 @@ import { fetchGreetings } from '../redux/greetings/greetingsSlice';
 
 const Greeting = () => {
   const dispatch = useDispatch();
-  const { greeting, loading, error } = useSelector(state => state.greetings);
+  const { greeting, loading, error } = useSelector((state) => state.greetings);
   useEffect(() => {
     dispatch(fetchGreetings());
-    console.log(greeting);
   }, [dispatch]);
 
-  return (
-    <div>
-      {loading ? (
-        <p>Loading...</p>
-      ) : error ? (
-        <p>Error: {error}</p>
-      ) : (
-        <h1>{greeting}</h1>
-      )}
-    </div>
-  );
-}
+  let content;
+  if (loading) {
+    content = <p>Loading...</p>;
+  } else if (error) {
+    content = (
+      <p>
+        Error:
+        {error}
+      </p>
+    );
+  } else {
+    content = <h1>{greeting}</h1>;
+  }
+
+  return <div>{content}</div>;
+};
 
 export default Greeting;
